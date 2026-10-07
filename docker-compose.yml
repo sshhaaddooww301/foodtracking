@@ -1,0 +1,185 @@
+version: "3.9"
+
+networks:
+  trustchain:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+  hardhat_data:
+  ipfs_data:
+
+services:
+  # ── PostgreSQL ─────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: tc_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-trustchain}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-trustchain_pass}
+      POSTGRES_DB: ${POSTGRES_DB:-trustchain_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - trustchain
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-trustchain}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Redis ──────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: tc_redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - trustchain
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Hardhat Blockchain Node ────────────────────────────────
+  blockchain-node:
+    build:
+      context: ./blockchain
+      dockerfile: Dockerfile
+    container_name: tc_blockchain
+    restart: unless-stopped
+    ports:
+      - "8545:8545"
+    volumes:
+      - hardhat_data:/app/deployments
+    networks:
+      - trustchain
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8545", "-d", '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}', "-H", "Content-Type: application/json"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+
+  # ── FastAPI Backend ────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: tc_backend
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-trustchain}:${POSTGRES_PASSWORD:-trustchain_pass}@postgres:5432/${POSTGRES_DB:-trustchain_db}
+      DATABASE_URL_SYNC: postgresql://${POSTGRES_USER:-trustchain}:${POSTGRES_PASSWORD:-trustchain_pass}@postgres:5432/${POSTGRES_DB:-trustchain_db}
+      REDIS_URL: redis://redis:6379/0
+      BLOCKCHAIN_RPC_URL: http://blockchain-node:8545
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - ./blockchain/deployments:/app/blockchain_deployments
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      blockchain-node:
+        condition: service_healthy
+    networks:
+      - trustchain
+    command: >
+      sh -c "
+        alembic upgrade head &&
+        python -m app.seed &&
+        uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+      "
+
+  # ── IoT Simulator ─────────────────────────────────────────
+  iot-simulator:
+    build:
+      context: ./iot-simulator
+      dockerfile: Dockerfile
+    container_name: tc_iot_simulator
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      BACKEND_URL: http://backend:8000
+      IOT_SIGNING_KEY: ${IOT_SIGNING_KEY:-CHANGE_ME_IOT_MASTER_SIGNING_KEY}
+      REDIS_URL: redis://redis:6379/0
+    ports:
+      - "8001:8001"
+    depends_on:
+      - backend
+      - redis
+    networks:
+      - trustchain
+
+  # ── Oracle Service ─────────────────────────────────────────
+  oracle-service:
+    build:
+      context: ./oracle-service
+      dockerfile: Dockerfile
+    container_name: tc_oracle
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      BACKEND_URL: http://backend:8000
+      REDIS_URL: redis://redis:6379/0
+    ports:
+      - "8002:8002"
+    depends_on:
+      - backend
+      - redis
+    networks:
+      - trustchain
+
+  # ── Next.js Frontend ──────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: dev
+    container_name: tc_frontend
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+      NEXT_PUBLIC_WS_URL: ws://localhost:8000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - backend
+    networks:
+      - trustchain
+
+  # ── Nginx Reverse Proxy ───────────────────────────────────
+  nginx:
+    image: nginx:alpine
+    container_name: tc_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - trustchain
