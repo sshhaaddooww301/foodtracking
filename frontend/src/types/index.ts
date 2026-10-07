@@ -225,17 +225,77 @@ export interface DashboardStats {
 
 export interface VerificationResult {
   package_code: string;
-  result: "AUTHENTIC" | "SUSPICIOUS" | "COUNTERFEIT" | "RECALLED" | "QUARANTINED";
-  is_authentic: boolean;
-  product_name: string;
-  product_sku: string;
-  batch_number: string;
-  manufacturer_name: string;
-  manufacturing_date: string;
-  expiry_date: string;
   status: string;
-  cold_chain_compliant: boolean;
-  blockchain_tx_hash?: string;
-  verified_at: string;
+  is_authentic: boolean;
+  is_suspicious: boolean;
+  is_recalled: boolean;
+  is_quarantined: boolean;
+  product?: {
+    name?: string;
+    sku?: string;
+    category?: string;
+    description?: string;
+    image_url?: string;
+    drug_schedule?: string;
+    min_temperature?: number;
+    max_temperature?: number;
+    regulatory_license?: string;
+    composition?: string;
+  };
+  batch?: {
+    batch_number?: string;
+    manufacturing_date?: string;
+    expiry_date?: string;
+    blockchain_tx_hash?: string;
+    ipfs_cid?: string;
+  };
+  manufacturer?: {
+    name?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    license?: string;
+    registration_number?: string;
+    latitude?: number;
+    longitude?: number;
+  };
+  current_owner?: {
+    name?: string;
+    type?: string;
+    city?: string;
+    state?: string;
+  };
+  journey?: Array<{
+    event_type: string;
+    from_org?: string;
+    to_org?: string;
+    location?: string;
+    latitude?: number;
+    longitude?: number;
+    timestamp?: string;
+    blockchain_tx?: string;
+    performer?: string;
+  }>;
+  cold_chain_ok: boolean;
+  risk_score: number;
+  risk_level: string;
+  blockchain_tx?: string;
+  recall_info?: {
+    recall_number?: string;
+    reason?: string;
+    severity?: string;
+    status?: string;
+  };
+  last_temperature?: number;
+  last_humidity?: number;
+  scan_count: number;
+  current_location?: {
+    latitude?: number;
+    longitude?: number;
+    location_name?: string;
+    last_updated?: string;
+    status?: string;
+  };
   warning_message?: string;
+  result?: "AUTHENTIC" | "SUSPICIOUS" | "COUNTERFEIT" | "RECALLED" | "QUARANTINED";
 }

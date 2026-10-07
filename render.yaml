@@ -5,23 +5,19 @@ services:
     region: oregon
     plan: free
     rootDir: backend
-    buildCommand: pip install -r requirements.txt && alembic upgrade head && python -m app.seed
+    buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port 10000
-    healthCheckPath: /api/v1/health
+    healthCheckPath: /health
     autoDeploy: true
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: trustchain-postgres
-          property: connectionString
+        value: postgresql+asyncpg://trustchain:npg_UzgBm5Xo0sJa@ep-damp-paper-b301iffa.c-4.ap-southeast-1.aws.neon.tech/trustchain_db?ssl=require
       - key: DATABASE_URL_SYNC
-        fromDatabase:
-          name: trustchain-postgres
-          property: connectionString
+        value: postgresql://trustchain:npg_UzgBm5Xo0sJa@ep-damp-paper-b301iffa.c-4.ap-southeast-1.aws.neon.tech/trustchain_db?sslmode=require
       - key: REDIS_URL
         value: ""
       - key: JWT_SECRET
-        generateValue: true
+        value: super_secret_jwt_key_trustchain_production_grade_security_token_2026_xyz
       - key: JWT_ALGORITHM
         value: HS256
       - key: ACCESS_TOKEN_EXPIRE_MINUTES
@@ -33,7 +29,7 @@ services:
       - key: DEBUG
         value: "false"
       - key: CORS_ORIGINS
-        value: "https://frontend-peach-one-11.vercel.app,http://localhost:3000"
+        value: "https://frontend-peach-one-11.vercel.app,https://frontend-myvr78xoy-sshhaaddooww301s-projects.vercel.app,http://localhost:3000"
       - key: BLOCKCHAIN_RPC_URL
         value: "http://localhost:8545"
       - key: BLOCKCHAIN_PRIVATE_KEY
@@ -50,11 +46,3 @@ services:
         value: ""
       - key: IPFS_GATEWAY_URL
         value: "https://gateway.pinata.cloud/ipfs/"
-
-databases:
-  - name: trustchain-postgres
-    databaseName: trustchain_db
-    user: trustchain
-    region: oregon
-    plan: free
-    ipAllowList: []

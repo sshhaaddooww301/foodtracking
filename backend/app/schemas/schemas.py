@@ -263,6 +263,7 @@ class PackageVerifyResult(BaseModel):
     last_temperature: Optional[float] = None
     last_humidity: Optional[float] = None
     scan_count: int
+    current_location: Optional[Dict[str, Any]] = None
 
 
 # ── Shipment ───────────────────────────────────────────────────────────────────
