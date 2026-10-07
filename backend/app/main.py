@@ -47,6 +47,7 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins_list,
+    allow_origin_regex=r"^https:\/\/.*\.vercel\.app$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -71,9 +72,11 @@ app.include_router(api_router)
 
 
 @app.get("/health")
+@app.get("/api/v1/health")
 async def health_check():
     return {
         "status": "healthy",
         "service": "TrustChain Supply API",
         "version": "1.0.0",
     }
+
