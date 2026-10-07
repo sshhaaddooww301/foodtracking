@@ -156,19 +156,35 @@ async def generate_packages(
     if not batch:
         raise HTTPException(status_code=404, detail="Batch not found")
 
-    # Check if packages already exist
-    existing = await db.execute(select(func.count()).where(Package.batch_id == batch_id))
-    if existing.scalar() > 0:
-        raise HTTPException(status_code=400, detail="Packages already generated for this batch")
+    # Check if packages already exist for this batch
+    existing_count = (await db.execute(select(func.count()).where(Package.batch_id == batch_id))).scalar() or 0
+    if existing_count > 0:
+        existing_pkgs = (await db.execute(
+            select(Package.package_code).where(Package.batch_id == batch_id).order_by(Package.package_code)
+        )).scalars().all()
+        return {
+            "batch_id": str(batch_id),
+            "batch_number": batch.batch_number,
+            "packages_generated": existing_count,
+            "already_serialized": True,
+            "first_package": existing_pkgs[0] if existing_pkgs else None,
+            "last_package": existing_pkgs[-1] if existing_pkgs else None,
+            "message": f"Batch already serialized with {existing_count} packages.",
+        }
 
-    # Get current max package sequence
-    max_result = await db.execute(
-        select(func.max(cast(func.substr(Package.package_code, 5), Integer)))
-    )
-    current_max = max_result.scalar() or 0
+    # Safely compute current max PKG-###### sequence across all packages
+    codes_result = await db.execute(select(Package.package_code))
+    current_max = 0
+    for code in codes_result.scalars().all():
+        if code and code.startswith("PKG-"):
+            num_part = code[4:]
+            if num_part.isdigit():
+                current_max = max(current_max, int(num_part))
 
+    # Generate up to 20 unit packages
+    num_to_generate = min(batch.quantity, 20) if batch.quantity and batch.quantity > 0 else 10
     packages = []
-    for i in range(batch.quantity):
+    for i in range(num_to_generate):
         seq = current_max + i + 1
         package_code = f"PKG-{seq:06d}"
         crypto_hash = generate_package_hash(package_code, str(batch_id), str(batch.product_id))
@@ -184,15 +200,18 @@ async def generate_packages(
         )
         db.add(pkg)
 
-        # Register on blockchain (first 10 only for performance in dev)
-        if i < 10:
-            bc_result = await blockchain_service.register_package(
-                package_code=package_code,
-                batch_number=batch.batch_number,
-                crypto_hash=crypto_hash,
-            )
-            if bc_result:
-                pkg.blockchain_identity = bc_result["tx_hash"]
+        # Register on blockchain (first 5 for speed)
+        if i < 5:
+            try:
+                bc_result = await blockchain_service.register_package(
+                    package_code=package_code,
+                    batch_number=batch.batch_number,
+                    crypto_hash=crypto_hash,
+                )
+                if bc_result and isinstance(bc_result, dict):
+                    pkg.blockchain_identity = bc_result.get("tx_hash")
+            except Exception as e:
+                logger.warning(f"Blockchain register package skipped: {e}")
 
         packages.append(package_code)
 
@@ -202,7 +221,7 @@ async def generate_packages(
         action="PACKAGES_GENERATED",
         resource_type="batch",
         resource_id=batch_id,
-        description=f"Generated {batch.quantity} packages for batch {batch.batch_number}",
+        description=f"Generated {len(packages)} packages for batch {batch.batch_number}",
     )
     db.add(audit)
     await db.commit()
@@ -211,8 +230,10 @@ async def generate_packages(
         "batch_id": str(batch_id),
         "batch_number": batch.batch_number,
         "packages_generated": len(packages),
+        "already_serialized": False,
         "first_package": packages[0] if packages else None,
         "last_package": packages[-1] if packages else None,
+        "message": f"Successfully serialized {len(packages)} unit packages with QR identities!",
     }
 
 

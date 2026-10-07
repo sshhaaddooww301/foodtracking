@@ -80,10 +80,15 @@ export default function BatchesPage() {
     setGeneratingFor(batchId);
     try {
       const res = await batchesApi.generatePackages(batchId);
-      alert(`Successfully serialized ${res.data?.created_count ?? 10} unit packages with QR identities!`);
+      const count = res.data?.packages_generated ?? res.data?.created_count ?? 10;
+      if (res.data?.already_serialized) {
+        alert(res.data.message || `Notice: Batch already has ${count} serialized packages.`);
+      } else {
+        alert(res.data?.message || `Successfully serialized ${count} unit packages with QR identities!`);
+      }
       fetchData();
     } catch (err: any) {
-      alert(err.response?.data?.detail || "Failed to serialize packages");
+      alert(err.response?.data?.detail || err.response?.data?.message || "Failed to serialize packages");
     } finally {
       setGeneratingFor(null);
     }
