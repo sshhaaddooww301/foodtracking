@@ -30,7 +30,7 @@ class BlockchainService:
     _instance: Optional["BlockchainService"] = None
 
     def __init__(self):
-        self.w3 = Web3(Web3.HTTPProvider(settings.BLOCKCHAIN_RPC_URL))
+        self.w3 = Web3(Web3.HTTPProvider(settings.BLOCKCHAIN_RPC_URL, request_kwargs={"timeout": 2}))
         if poa_middleware:
             try:
                 self.w3.middleware_onion.inject(poa_middleware, layer=0)
@@ -50,6 +50,10 @@ class BlockchainService:
         return cls._instance
 
     async def connect(self):
+        if "localhost" in settings.BLOCKCHAIN_RPC_URL and settings.ENVIRONMENT == "production":
+            logger.info("Production mode with localhost RPC URL: running in mock blockchain mode.")
+            self._connected = False
+            return
         try:
             self._connected = self.w3.is_connected()
             if self._connected:
