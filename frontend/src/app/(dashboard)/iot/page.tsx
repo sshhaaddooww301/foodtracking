@@ -71,7 +71,7 @@ export default function IoTTelemetryPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
-            <Cpu className="w-6 h-6 text-indigo-600" />
+            <Cpu className="w-6 h-6 text-navy-900" />
             IoT Telemetry & Anomaly Simulation Deck
           </h1>
           <p className="text-xs text-muted-foreground mt-0.5">
@@ -79,17 +79,17 @@ export default function IoTTelemetryPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <div className="flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+          <span className="h-2 w-2 rounded-full bg-emerald-600"></span>
           Telemetry Engine Running
         </div>
       </div>
 
       {/* Simulator Control Panel */}
-      <Card className="p-5 border-l-4 border-l-indigo-600">
+      <Card className="p-5 border-l-4 border-l-navy-900">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <Radio className="w-4 h-4 text-indigo-600" />
+            <Radio className="w-4 h-4 text-navy-900" />
             <h2 className="text-sm font-bold text-foreground">
               Hardware / Simulator Control Console
             </h2>

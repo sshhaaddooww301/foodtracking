@@ -22,7 +22,7 @@ export interface Product {
   id: string;
   name: string;
   sku: string;
-  category: "PHARMACEUTICAL" | "FOOD_BEVERAGE" | "OTHER";
+  category: "PHARMACEUTICAL" | "FOOD" | "BEVERAGE" | "SUPPLEMENT" | "MEDICAL_DEVICE" | "COSMETIC" | "FOOD_BEVERAGE" | "OTHER" | string;
   manufacturer_id: string;
   manufacturer?: Organization;
   dosage_form?: string;
@@ -39,6 +39,9 @@ export interface Product {
   fda_ndc_number?: string;
   regulatory_approval_number?: string;
   status: string;
+  image_url?: string;
+  composition?: string;
+  description?: string;
   created_at: string;
 }
 
@@ -241,6 +244,11 @@ export interface VerificationResult {
     max_temperature?: number;
     regulatory_license?: string;
     composition?: string;
+    is_veg?: boolean;
+    certifications?: string[];
+    dosage_instruction?: string;
+    allergens?: string;
+    nutrition_facts?: Record<string, string>;
   };
   batch?: {
     batch_number?: string;
@@ -289,6 +297,13 @@ export interface VerificationResult {
   last_temperature?: number;
   last_humidity?: number;
   scan_count: number;
+  first_scanned_at?: string;
+  last_scanned_at?: string;
+  seal_status?: string;
+  seal_code?: string;
+  clone_risk?: string;
+  scan_locations?: string[];
+  verification_id?: string;
   current_location?: {
     latitude?: number;
     longitude?: number;

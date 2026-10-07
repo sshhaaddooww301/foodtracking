@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,74 +6,75 @@
 
 @layer base {
   :root {
-    /* ── TrustChain Premium Design System ── */
-    --background: 210 20% 98%;
-    --foreground: 215 25% 12%;
+    /* ── Modern Enterprise Technology Theme ── */
+    /* Color Palette: Deep Navy / Dark Blue + White / Off-White + Slate / Graphite */
+    --background: 210 20% 98%;          /* Off-white #f8fafc */
+    --foreground: 222 47% 11%;          /* Graphite dark #0f172a */
 
-    --card: 0 0% 100%;
-    --card-foreground: 215 25% 12%;
+    --card: 0 0% 100%;                  /* Crisp White #ffffff */
+    --card-foreground: 222 47% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 12%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 218 72% 28%;        /* Deep navy */
-    --primary-foreground: 0 0% 98%;
+    --primary: 218 72% 20%;             /* Deep Navy #0f2238 */
+    --primary-foreground: 0 0% 100%;    /* Crisp White */
 
-    --secondary: 215 16% 47%;      /* Slate */
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 215 19% 35%;           /* Slate / Graphite */
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 14% 94%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 210 16% 93%;               /* Off-white slate */
+    --muted-foreground: 215 16% 47%;    /* Slate text */
 
-    --accent: 210 14% 92%;
-    --accent-foreground: 215 25% 12%;
+    --accent: 215 25% 94%;
+    --accent-foreground: 222 47% 11%;
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 72% 45%;           /* Crisp Enterprise Red (no neon) */
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214 20% 88%;
+    --border: 214 20% 88%;              /* Slate border #e2e8f0 */
     --input: 214 20% 88%;
-    --ring: 218 72% 28%;
+    --ring: 218 72% 25%;
 
     --radius: 0.5rem;
 
-    /* Status colors */
-    --verified: 142 71% 45%;
-    --warning: 38 92% 50%;
-    --critical: 0 72% 51%;
-    --info: 199 89% 48%;
+    /* Semantic Status (Structured & Subdued, Non-Neon) */
+    --verified: 142 71% 35%;
+    --warning: 38 92% 44%;
+    --critical: 0 72% 45%;
+    --info: 217 91% 40%;
 
-    /* Sidebar */
-    --sidebar-bg: 218 45% 14%;
-    --sidebar-fg: 210 20% 85%;
-    --sidebar-accent: 218 45% 20%;
-    --sidebar-border: 218 35% 20%;
+    /* Enterprise Sidebar (Deep Navy) */
+    --sidebar-bg: 220 52% 10%;          /* Deep Navy #0b1528 */
+    --sidebar-fg: 210 20% 88%;          /* Off-white */
+    --sidebar-accent: 220 40% 16%;      /* Slate navy accent */
+    --sidebar-border: 220 35% 18%;      /* Subtle slate divider */
   }
 
   .dark {
-    --background: 218 45% 8%;
-    --foreground: 210 20% 92%;
-    --card: 218 40% 11%;
-    --card-foreground: 210 20% 92%;
-    --popover: 218 40% 11%;
-    --popover-foreground: 210 20% 92%;
-    --primary: 213 80% 60%;
-    --primary-foreground: 218 45% 8%;
-    --secondary: 215 16% 35%;
-    --secondary-foreground: 210 20% 92%;
-    --muted: 218 35% 16%;
-    --muted-foreground: 215 16% 60%;
-    --accent: 218 35% 18%;
-    --accent-foreground: 210 20% 92%;
-    --destructive: 0 62% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 218 30% 20%;
-    --input: 218 30% 20%;
-    --ring: 213 80% 60%;
-    --sidebar-bg: 218 50% 7%;
-    --sidebar-fg: 210 20% 78%;
-    --sidebar-accent: 218 45% 13%;
-    --sidebar-border: 218 40% 14%;
+    --background: 222 47% 9%;           /* Graphite / Dark Navy #0b1120 */
+    --foreground: 210 20% 95%;          /* Crisp Off-White */
+    --card: 222 45% 12%;               /* Deep Navy Slate #111a2e */
+    --card-foreground: 210 20% 95%;
+    --popover: 222 45% 12%;
+    --popover-foreground: 210 20% 95%;
+    --primary: 217 91% 55%;            /* Clean Enterprise Blue */
+    --primary-foreground: 222 47% 9%;
+    --secondary: 215 16% 40%;
+    --secondary-foreground: 210 20% 95%;
+    --muted: 220 30% 16%;
+    --muted-foreground: 215 16% 65%;
+    --accent: 220 30% 18%;
+    --accent-foreground: 210 20% 95%;
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 25% 20%;
+    --input: 220 25% 20%;
+    --ring: 217 91% 55%;
+    --sidebar-bg: 222 55% 8%;           /* Pure Deep Navy */
+    --sidebar-fg: 210 20% 85%;
+    --sidebar-accent: 220 35% 14%;
+    --sidebar-border: 220 30% 16%;
   }
 }
 
@@ -83,57 +84,51 @@
   }
   body {
     @apply bg-background text-foreground font-inter antialiased;
-    font-feature-settings: "cv11", "ss01";
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight;
+    @apply font-semibold tracking-tight text-foreground;
   }
 }
 
 @layer utilities {
-  .font-inter { font-family: 'Inter', system-ui, sans-serif; }
+  .font-inter { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+  .font-mono { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace; }
 
-  /* Premium card style */
-  .card-premium {
+  /* Enterprise Card */
+  .card-enterprise {
     @apply bg-card border border-border rounded-lg shadow-sm;
   }
 
-  /* Status badges */
-  .badge-verified  { @apply bg-emerald-50 text-emerald-700 border border-emerald-200; }
-  .badge-warning   { @apply bg-amber-50  text-amber-700  border border-amber-200;  }
-  .badge-critical  { @apply bg-red-50    text-red-700    border border-red-200;    }
-  .badge-info      { @apply bg-blue-50   text-blue-700   border border-blue-200;   }
-  .badge-neutral   { @apply bg-slate-50  text-slate-700  border border-slate-200;  }
+  /* Status Badges - Clean, flat, high-contrast, non-neon */
+  .badge-verified  { @apply bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium; }
+  .badge-warning   { @apply bg-amber-50  text-amber-800  border border-amber-200  font-medium; }
+  .badge-critical  { @apply bg-rose-50   text-rose-800   border border-rose-200   font-medium; }
+  .badge-info      { @apply bg-blue-50   text-blue-800   border border-blue-200   font-medium; }
+  .badge-neutral   { @apply bg-slate-100 text-slate-800  border border-slate-200  font-medium; }
 
   /* KPI metric */
-  .metric-value { @apply text-3xl font-bold tracking-tight; }
-  .metric-label { @apply text-xs font-medium text-muted-foreground uppercase tracking-wider; }
+  .metric-value { @apply text-2xl sm:text-3xl font-bold tracking-tight text-foreground font-mono; }
+  .metric-label { @apply text-[11px] font-semibold text-muted-foreground uppercase tracking-wider; }
 
-  /* Sidebar item */
+  /* Sidebar navigation item */
   .sidebar-item {
     @apply flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium
-           text-sidebar-foreground/70 hover:text-sidebar-foreground
-           hover:bg-white/10 transition-colors cursor-pointer;
+           text-sidebar-foreground/75 hover:text-white
+           hover:bg-sidebar-accent transition-colors cursor-pointer;
   }
   .sidebar-item-active {
-    @apply bg-white/15 text-sidebar-foreground;
+    @apply bg-sidebar-accent text-white font-semibold;
   }
 
-  /* Table */
-  .table-row-hover { @apply hover:bg-muted/50 transition-colors; }
+  /* Table styling */
+  .table-row-hover { @apply hover:bg-muted/40 transition-colors; }
 
-  /* Scrollbar */
-  .scrollbar-thin::-webkit-scrollbar { width: 4px; height: 4px; }
+  /* Minimal enterprise scrollbar */
+  .scrollbar-thin::-webkit-scrollbar { width: 5px; height: 5px; }
   .scrollbar-thin::-webkit-scrollbar-track { @apply bg-transparent; }
-  .scrollbar-thin::-webkit-scrollbar-thumb { @apply bg-border rounded-full; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { @apply bg-border rounded-full hover:bg-muted-foreground/30; }
 }
 
-/* Leaflet map fixes */
+/* Leaflet map fix */
 .leaflet-container { z-index: 0; }
-
-/* Subtle pulse for live indicator */
-@keyframes live-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-.live-dot { animation: live-pulse 2s ease-in-out infinite; }

@@ -52,31 +52,30 @@ export function Sidebar() {
   const { user, logout } = useAuthStore();
 
   return (
-    <aside className="w-64 bg-slate-900 border-r border-slate-800 flex flex-col h-screen fixed left-0 top-0 text-slate-300 z-30">
-      {/* Brand Header */}
-      <div className="p-5 border-b border-slate-800 flex items-center justify-between">
+    <aside className="w-64 bg-[#0B1528] border-r border-[#1B2A4A] flex flex-col h-screen fixed left-0 top-0 text-slate-300 z-30 select-none">
+      {/* Enterprise Brand Header */}
+      <div className="px-5 py-4 border-b border-[#1B2A4A] flex items-center justify-between bg-[#081020]">
         <Link href="/admin" className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
-            <ShieldCheck className="w-5 h-5" />
+          <div className="w-8 h-8 rounded bg-[#132A4A] border border-[#233D66] flex items-center justify-center text-white">
+            <ShieldCheck className="w-4 h-4 text-blue-300" />
           </div>
           <div>
-            <h1 className="text-base font-bold text-white tracking-tight leading-tight">
+            <h1 className="text-sm font-bold text-white tracking-tight leading-none">
               TrustChain
             </h1>
-            <p className="text-[10px] uppercase font-semibold tracking-wider text-blue-400">
-              Supply Integrity
+            <p className="text-[10px] font-semibold tracking-wider text-slate-400 mt-0.5">
+              Enterprise Supply Integrity
             </p>
           </div>
         </Link>
-        <span className="flex h-2 w-2 relative">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-        </span>
+        <div className="flex items-center gap-1.5" title="Network Synchronized">
+          <span className="w-2 h-2 rounded-full bg-emerald-500" />
+        </div>
       </div>
 
-      {/* Navigation Links */}
-      <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1 scrollbar-thin">
-        <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 px-3 mb-2">
+      {/* Navigation Items */}
+      <nav className="flex-1 overflow-y-auto px-2.5 py-4 space-y-0.5 scrollbar-thin">
+        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 mb-2">
           Operations
         </div>
         {NAV_ITEMS.map((item) => {
@@ -87,16 +86,16 @@ export function Sidebar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all group",
+                "flex items-center gap-2.5 px-3 py-2 rounded text-xs font-medium transition-colors",
                 isActive
-                  ? "bg-blue-600/15 text-blue-400 font-semibold"
-                  : "text-slate-400 hover:text-slate-100 hover:bg-slate-800/60"
+                  ? "bg-[#142642] text-white font-semibold border-l-2 border-blue-400 pl-2.5"
+                  : "text-slate-300 hover:text-white hover:bg-[#101E38]"
               )}
             >
               <Icon
                 className={cn(
-                  "w-4 h-4 transition-transform group-hover:scale-110",
-                  isActive ? "text-blue-400" : "text-slate-400 group-hover:text-slate-200"
+                  "w-4 h-4 shrink-0",
+                  isActive ? "text-blue-300" : "text-slate-400"
                 )}
               />
               <span className="truncate">{item.name}</span>
@@ -104,48 +103,49 @@ export function Sidebar() {
           );
         })}
 
-        <div className="pt-4 mt-4 border-t border-slate-800">
-          <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 px-3 mb-2">
-            Public Gateway
+        <div className="pt-3 mt-3 border-t border-[#1B2A4A]">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 mb-1.5">
+            Verification
           </div>
           <Link
             href="/verify"
             target="_blank"
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-emerald-400 hover:bg-emerald-950/30 transition-all"
+            className="flex items-center gap-2.5 px-3 py-2 rounded text-xs font-medium text-slate-300 hover:text-white hover:bg-[#101E38] transition-colors"
           >
-            <Radio className="w-4 h-4 text-emerald-400" />
-            <span>Consumer Portal</span>
+            <Radio className="w-4 h-4 text-slate-400" />
+            <span>Public Product Passport</span>
           </Link>
         </div>
       </nav>
 
-      {/* User Footer */}
-      <div className="p-4 border-t border-slate-800 bg-slate-950/40">
-        <div className="flex items-center justify-between mb-3">
+      {/* Enterprise User Profile Footer */}
+      <div className="p-3.5 border-t border-[#1B2A4A] bg-[#081020]">
+        <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-semibold text-slate-200 uppercase">
+            <div className="w-7 h-7 rounded bg-[#132A4A] border border-[#233D66] flex items-center justify-center text-[10px] font-bold text-white uppercase shrink-0">
               {user?.full_name?.slice(0, 2) || "TC"}
             </div>
             <div className="truncate text-left">
               <p className="text-xs font-semibold text-white truncate">
-                {user?.full_name || "Guest Officer"}
+                {user?.full_name || "Enterprise Officer"}
               </p>
               <p className="text-[10px] text-slate-400 truncate">
-                {user?.role ? ROLE_LABELS[user.role] || user.role : "Viewer"}
+                {user?.role ? ROLE_LABELS[user.role] || user.role : "Auditor"}
               </p>
             </div>
           </div>
           <button
             onClick={logout}
-            title="Log out"
-            className="p-1.5 rounded-md hover:bg-slate-800 text-slate-400 hover:text-red-400 transition-colors"
+            title="Sign Out"
+            className="p-1 rounded text-slate-400 hover:text-slate-200 hover:bg-[#132A4A] transition-colors"
           >
-            <LogOut className="w-4 h-4" />
+            <LogOut className="w-3.5 h-3.5" />
           </button>
         </div>
         {user?.organization && (
-          <div className="px-2 py-1 bg-slate-800/80 rounded border border-slate-700/60 text-[10px] text-slate-300 truncate">
-            🏢 {user.organization.name}
+          <div className="px-2 py-1 bg-[#101E38] rounded border border-[#1B2A4A] text-[10px] text-slate-300 truncate flex items-center gap-1.5">
+            <span className="text-slate-400">Org:</span>
+            <span className="font-medium text-white truncate">{user.organization.name}</span>
           </div>
         )}
       </div>

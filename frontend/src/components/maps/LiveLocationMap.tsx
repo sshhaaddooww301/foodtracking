@@ -132,60 +132,50 @@ export default function LiveLocationMap({
             height: 32px;
             border-radius: 50%;
             background: ${color};
-            border: 3px solid #0f172a;
-            box-shadow: 0 0 15px ${color}99;
+            border: 2px solid #0f172a;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 14px;
-            font-weight: bold;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.3);
           ">
             ${label}
           </div>
-          <div style="
-            position: absolute;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: 2px solid ${color};
-            animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
-            opacity: 0.6;
-          "></div>
         </div>
       `,
-      iconSize: [32, 32],
-      iconAnchor: [16, 16],
+      iconSize: [30, 30],
+      iconAnchor: [15, 15],
     });
   };
 
-  const mfgIcon = createCustomIcon("#3b82f6", "🏭");
-  const liveIcon = createCustomIcon("#10b981", "📍");
-  const transitIcon = createCustomIcon("#8b5cf6", "🚚");
+  const mfgIcon = createCustomIcon("#1e3a8a", "🏭");
+  const liveIcon = createCustomIcon("#059669", "📍");
+  const transitIcon = createCustomIcon("#334155", "🚚");
 
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${currentLat},${currentLng}`;
 
   return (
-    <div className="rounded-2xl overflow-hidden border border-slate-800 bg-slate-900/90 shadow-2xl relative flex flex-col">
+    <div className="rounded-lg overflow-hidden border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm relative flex flex-col">
       {/* Map Control Bar / Header */}
-      <div className="p-4 border-b border-slate-800/80 bg-slate-950/60 backdrop-blur flex flex-wrap items-center justify-between gap-3">
+      <div className="p-3.5 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <div className="relative">
-            <Radio className="w-5 h-5 text-emerald-400 animate-pulse" />
-            <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+          <div className="w-7 h-7 rounded bg-[#0A192F] text-white flex items-center justify-center">
+            <Radio className="w-3.5 h-3.5 text-blue-300" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-bold text-white tracking-tight">
-                Live GPS & Cold-Chain Telemetry
+              <span className="text-xs font-bold text-slate-900 dark:text-white tracking-tight">
+                Live GPS &amp; Cold-Chain Telemetry
               </span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                ACTIVE RADAR
+              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+                GPS SYNC
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 flex items-center gap-1.5 mt-0.5">
-              <MapPin className="w-3.5 h-3.5 text-blue-400" />
-              <span>{currentLocation?.location_name || "Transit Route (Active Transmission)"}</span>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1 mt-0.5">
+              <MapPin className="w-3 h-3 text-slate-500" />
+              <span>{currentLocation?.location_name || "Transit Corridor (Live Ingestion)"}</span>
             </p>
           </div>
         </div>
@@ -195,11 +185,11 @@ export default function LiveLocationMap({
           href={googleMapsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 text-blue-300 hover:text-white text-xs font-semibold transition shadow-sm"
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-white hover:bg-slate-50 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-xs font-medium transition shadow-sm"
         >
-          <Navigation className="w-3.5 h-3.5" />
-          <span>Open in Google Maps</span>
-          <ExternalLink className="w-3 h-3 opacity-70" />
+          <Navigation className="w-3.5 h-3.5 text-slate-600" />
+          <span>Google Maps</span>
+          <ExternalLink className="w-3 h-3 text-slate-400" />
         </a>
       </div>
 
@@ -307,31 +297,31 @@ export default function LiveLocationMap({
         )}
 
         {/* Live Telemetry Floating Widget */}
-        <div className="absolute bottom-3 left-3 right-3 sm:right-auto z-10 bg-slate-950/90 backdrop-blur-md border border-slate-800 rounded-xl p-3 shadow-xl flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2 border-r border-slate-800 pr-3">
-            <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-              <Navigation className="w-4 h-4" />
+        <div className="absolute bottom-3 left-3 right-3 sm:right-auto z-10 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border border-slate-300 dark:border-slate-700 rounded-md p-2.5 shadow-sm flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-2 border-r border-slate-200 dark:border-slate-800 pr-3">
+            <div className="w-7 h-7 rounded bg-[#0A192F] text-white flex items-center justify-center">
+              <Navigation className="w-3.5 h-3.5 text-blue-300" />
             </div>
             <div>
-              <span className="text-[10px] text-slate-400 font-medium uppercase block">
+              <span className="text-[10px] text-slate-500 font-semibold uppercase block">
                 Coordinates
               </span>
-              <span className="text-xs font-mono font-bold text-white">
+              <span className="text-xs font-mono font-bold text-slate-900 dark:text-white">
                 {currentLat.toFixed(4)}° N, {currentLng.toFixed(4)}° E
               </span>
             </div>
           </div>
 
           {temperature !== undefined && temperature !== null && (
-            <div className="flex items-center gap-2 border-r border-slate-800 pr-3">
-              <div className="w-8 h-8 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center">
-                <Thermometer className="w-4 h-4" />
+            <div className="flex items-center gap-2 border-r border-slate-200 dark:border-slate-800 pr-3">
+              <div className="w-7 h-7 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center">
+                <Thermometer className="w-3.5 h-3.5" />
               </div>
               <div>
-                <span className="text-[10px] text-slate-400 font-medium uppercase block">
+                <span className="text-[10px] text-slate-500 font-semibold uppercase block">
                   Sensor Temp
                 </span>
-                <span className="text-xs font-bold text-blue-300">
+                <span className="text-xs font-mono font-bold text-slate-900 dark:text-white">
                   {temperature}°C
                 </span>
               </div>
@@ -339,24 +329,24 @@ export default function LiveLocationMap({
           )}
 
           {humidity !== undefined && humidity !== null && (
-            <div className="flex items-center gap-2 border-r border-slate-800 pr-3">
-              <div className="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center">
-                <Droplets className="w-4 h-4" />
+            <div className="flex items-center gap-2 border-r border-slate-200 dark:border-slate-800 pr-3">
+              <div className="w-7 h-7 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center">
+                <Droplets className="w-3.5 h-3.5" />
               </div>
               <div>
-                <span className="text-[10px] text-slate-400 font-medium uppercase block">
+                <span className="text-[10px] text-slate-500 font-semibold uppercase block">
                   Humidity
                 </span>
-                <span className="text-xs font-bold text-cyan-300">
+                <span className="text-xs font-mono font-bold text-slate-900 dark:text-white">
                   {humidity}%
                 </span>
               </div>
             </div>
           )}
 
-          <div className="flex items-center gap-1.5 text-[10px] text-slate-400">
-            <Clock className="w-3.5 h-3.5 text-slate-500" />
-            <span>Telemetry verified real-time</span>
+          <div className="flex items-center gap-1.5 text-[10px] text-slate-500">
+            <Clock className="w-3 h-3 text-slate-400" />
+            <span>Telemetry Verified</span>
           </div>
         </div>
       </div>

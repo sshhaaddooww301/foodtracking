@@ -66,7 +66,7 @@ export default function OrganizationsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
-            <Building2 className="w-6 h-6 text-blue-600" />
+            <Building2 className="w-6 h-6 text-navy-900" />
             Supply Chain Network & Verified Stakeholders
           </h1>
           <p className="text-xs text-muted-foreground mt-0.5">
@@ -94,7 +94,7 @@ export default function OrganizationsPage() {
                 <th className="py-3 px-4 text-right">KYC Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="divide-y border-border">
               {organizations.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="py-12 text-center text-muted-foreground">
@@ -122,11 +122,11 @@ export default function OrganizationsPage() {
                     <td className="py-3.5 px-4 text-muted-foreground">
                       {org.city || "Mumbai"}, {org.country || "India"}
                     </td>
-                    <td className="py-3.5 px-4 font-mono text-[11px] text-blue-600 dark:text-blue-400">
+                    <td className="py-3.5 px-4 font-mono text-[11px] text-navy-900 dark:text-slate-200">
                       {org.wallet_address ? `${org.wallet_address.slice(0, 8)}...` : "0x71C...aB9F"}
                     </td>
                     <td className="py-3.5 px-4 text-right">
-                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
+                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700 dark:text-emerald-400">
                         <CheckCircle2 className="w-3.5 h-3.5" />
                         VERIFIED
                       </span>
@@ -141,7 +141,7 @@ export default function OrganizationsPage() {
 
       {/* Onboard Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4">
           <div className="bg-card border border-border rounded-xl max-w-md w-full p-6 shadow-2xl">
             <h2 className="text-lg font-bold text-foreground mb-1">Onboard Supply Chain Entity</h2>
             <p className="text-xs text-muted-foreground mb-4">

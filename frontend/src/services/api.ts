@@ -111,6 +111,7 @@ export const iotApi = {
 export const consumerApi = {
   verify: (identifier: string) => apiClient.get(`/consumer/verify/${identifier}`),
   verifyPost: (identifier: string) => apiClient.post("/consumer/verify", { identifier }),
+  report: (data: any) => apiClient.post("/consumer/report", data),
 };
 
 // ── Fraud ─────────────────────────────────────────────────────────────────────

@@ -84,55 +84,55 @@ export default function AdminDashboardPage() {
 
       {/* KPI Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card className="p-4 border-l-4 border-l-blue-500">
+        <Card className="p-4 border border-border border-l-4 border-l-[#0A192F]">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-muted-foreground uppercase">Products & SKUs</span>
-            <Package className="w-4 h-4 text-blue-500" />
+            <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Products &amp; SKUs</span>
+            <Package className="w-4 h-4 text-[#0A192F] dark:text-blue-300" />
           </div>
-          <p className="text-2xl font-bold mt-2 text-foreground">
+          <p className="text-2xl font-bold font-mono mt-2 text-foreground">
             {stats?.total_products ?? 12}
           </p>
           <span className="text-[11px] text-muted-foreground">In active distribution</span>
         </Card>
 
-        <Card className="p-4 border-l-4 border-l-indigo-500">
+        <Card className="p-4 border border-border border-l-4 border-l-slate-600">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-muted-foreground uppercase">Active Batches</span>
-            <Boxes className="w-4 h-4 text-indigo-500" />
+            <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Active Batches</span>
+            <Boxes className="w-4 h-4 text-slate-700 dark:text-slate-300" />
           </div>
-          <p className="text-2xl font-bold mt-2 text-foreground">
+          <p className="text-2xl font-bold font-mono mt-2 text-foreground">
             {stats?.total_batches ?? 28}
           </p>
           <span className="text-[11px] text-muted-foreground">Tracked via Blockchain</span>
         </Card>
 
-        <Card className="p-4 border-l-4 border-l-emerald-500">
+        <Card className="p-4 border border-border border-l-4 border-l-emerald-600">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-muted-foreground uppercase">Verified Units</span>
-            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+            <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Verified Units</span>
+            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
           </div>
-          <p className="text-2xl font-bold mt-2 text-foreground">
+          <p className="text-2xl font-bold font-mono mt-2 text-foreground">
             {stats?.verified_packages ?? 1420}
           </p>
-          <span className="text-[11px] text-emerald-600 font-medium">99.4% Authenticity rate</span>
+          <span className="text-[11px] text-emerald-700 font-medium">99.4% Authenticity rate</span>
         </Card>
 
-        <Card className="p-4 border-l-4 border-l-red-500">
+        <Card className="p-4 border border-border border-l-4 border-l-rose-600">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-muted-foreground uppercase">Active Fraud Alerts</span>
-            <ShieldAlert className="w-4 h-4 text-red-500" />
+            <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Active Fraud Alerts</span>
+            <ShieldAlert className="w-4 h-4 text-rose-600" />
           </div>
-          <p className="text-2xl font-bold mt-2 text-red-600 dark:text-red-400">
+          <p className="text-2xl font-bold font-mono mt-2 text-rose-700 dark:text-rose-400">
             {stats?.fraud_alerts_open ?? 3}
           </p>
-          <span className="text-[11px] text-red-500 font-medium">Requires investigation</span>
+          <span className="text-[11px] text-rose-600 font-medium">Requires investigation</span>
         </Card>
       </div>
 
       {/* Secondary KPI Bar */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-card p-4 rounded-xl border border-border text-xs">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-card p-4 rounded-lg border border-border text-xs">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-amber-500/10 text-amber-500">
+          <div className="p-2 rounded bg-amber-50 border border-amber-200 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300">
             <AlertTriangle className="w-4 h-4" />
           </div>
           <div>
@@ -142,7 +142,7 @@ export default function AdminDashboardPage() {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-orange-500/10 text-orange-500">
+          <div className="p-2 rounded bg-slate-100 border border-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-200">
             <Archive className="w-4 h-4" />
           </div>
           <div>
@@ -152,17 +152,17 @@ export default function AdminDashboardPage() {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-purple-500/10 text-purple-500">
+          <div className="p-2 rounded bg-slate-100 border border-slate-200 text-[#0A192F] dark:bg-slate-800 dark:text-blue-300">
             <LinkIcon className="w-4 h-4" />
           </div>
           <div>
             <p className="text-muted-foreground">Blockchain Anchors</p>
-            <p className="font-semibold text-foreground">{stats?.blockchain_tx_count ?? 89} txs</p>
+            <p className="font-semibold text-foreground font-mono">{stats?.blockchain_tx_count ?? 89} txs</p>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-blue-500/10 text-blue-500">
+          <div className="p-2 rounded bg-slate-100 border border-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-200">
             <Truck className="w-4 h-4" />
           </div>
           <div>

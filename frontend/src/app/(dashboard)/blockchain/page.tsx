@@ -43,7 +43,7 @@ export default function BlockchainPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
-            <LinkIcon className="w-6 h-6 text-purple-600" />
+            <LinkIcon className="w-6 h-6 text-navy-900" />
             Blockchain Ledger & Smart Contracts
           </h1>
           <p className="text-xs text-muted-foreground mt-0.5">
@@ -62,7 +62,7 @@ export default function BlockchainPage() {
         <Card className="p-4">
           <span className="text-xs font-medium text-muted-foreground uppercase">EVM Node Status</span>
           <div className="flex items-center gap-2 mt-2">
-            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-600"></span>
             <span className="text-base font-bold text-foreground">
               {health?.network_name || "Hardhat Local (Chain 31337)"}
             </span>
@@ -112,7 +112,7 @@ export default function BlockchainPage() {
                 <th className="py-3 px-4 text-right">Anchored At</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="divide-y border-border">
               {transactions.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="py-12 text-center text-muted-foreground font-sans">
@@ -122,7 +122,7 @@ export default function BlockchainPage() {
               ) : (
                 transactions.map((tx) => (
                   <tr key={tx.id} className="hover:bg-muted/30 transition-colors">
-                    <td className="py-3.5 px-4 font-semibold text-blue-600 dark:text-blue-400">
+                    <td className="py-3.5 px-4 font-semibold text-navy-900 dark:text-slate-200">
                       {tx.tx_hash.slice(0, 14)}...{tx.tx_hash.slice(-10)}
                     </td>
                     <td className="py-3.5 px-4 font-sans">

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ShieldCheck, Lock, Mail, ArrowRight, AlertCircle } from "lucide-react";
+import { ShieldCheck, Lock, Mail, ArrowRight, AlertCircle, Shield } from "lucide-react";
 import { useAuthStore } from "@/lib/auth-store";
 import { Button, Input, Card } from "@/components/ui/primitives";
 
@@ -21,7 +21,7 @@ export default function LoginPage() {
       router.push("/admin");
     } catch (err: any) {
       setError(
-        err.response?.data?.detail || "Invalid email or password. Please try again."
+        err.response?.data?.detail || "Invalid email or password. Please verify your credentials."
       );
     }
   };
@@ -33,60 +33,61 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col justify-center items-center p-4">
+    <div className="min-h-screen bg-[#F8FAFC] flex flex-col justify-center items-center p-4 text-[#0F172A] selection:bg-[#0A192F] selection:text-white">
       <div className="w-full max-w-md">
         {/* Brand Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
           <Link href="/" className="inline-flex items-center gap-2.5 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/25">
-              <ShieldCheck className="w-6 h-6" />
+            <div className="w-9 h-9 rounded bg-[#0A192F] border border-slate-800 flex items-center justify-center text-white shadow-sm">
+              <ShieldCheck className="w-5 h-5 text-blue-300" />
             </div>
-            <span className="text-2xl font-bold text-white tracking-tight">TrustChain</span>
+            <span className="text-xl font-bold text-[#0A192F] tracking-tight">TrustChain</span>
           </Link>
-          <h2 className="text-xl font-semibold text-slate-100">Supply Chain Portal</h2>
-          <p className="text-xs text-slate-400 mt-1">
-            Sign in with authorized organization credentials
+          <h2 className="text-lg font-bold text-[#0A192F]">Enterprise Identity &amp; Access Portal</h2>
+          <p className="text-xs text-slate-500 mt-1">
+            Authenticate using authorized organization credentials
           </p>
         </div>
 
-        <Card className="bg-slate-900 border-slate-800 text-slate-100 shadow-2xl p-6 sm:p-8">
+        {/* Auth Card */}
+        <Card className="bg-white border-slate-200 text-slate-900 shadow-sm p-6 sm:p-7 rounded-lg">
           {error && (
-            <div className="mb-5 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-xs flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 shrink-0" />
+            <div className="mb-4 p-3 rounded bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
               <span>{error}</span>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                 Work Email Address
               </label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <Input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="pl-9 bg-slate-950 border-slate-800 text-white placeholder:text-slate-600"
-                  placeholder="name@company.com"
+                  className="pl-9 bg-white border-slate-300 text-slate-900 placeholder:text-slate-400 focus-visible:ring-[#0A192F]"
+                  placeholder="name@organization.com"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                 Password
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <Input
                   type="password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="pl-9 bg-slate-950 border-slate-800 text-white placeholder:text-slate-600"
+                  className="pl-9 bg-white border-slate-300 text-slate-900 placeholder:text-slate-400 focus-visible:ring-[#0A192F]"
                   placeholder="••••••••••••"
                 />
               </div>
@@ -96,55 +97,62 @@ export default function LoginPage() {
               type="submit"
               variant="primary"
               isLoading={isLoading}
-              className="w-full mt-2 bg-blue-600 hover:bg-blue-500"
+              className="w-full mt-2"
             >
-              Sign In to TrustChain
+              Sign In to Command Center
               <ArrowRight className="w-4 h-4 ml-1.5" />
             </Button>
           </form>
 
           {/* Demo 1-Click Credentials */}
-          <div className="mt-6 pt-5 border-t border-slate-800">
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-2 text-center">
-              Quick Demo Personas
+          <div className="mt-6 pt-5 border-t border-slate-100">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2.5 text-center">
+              Evaluation &amp; Demo Personas
             </p>
-            <div className="grid grid-cols-2 gap-2 text-[11px]">
+            <div className="grid grid-cols-2 gap-2 text-xs">
               <button
                 type="button"
                 onClick={() => setDemoUser("admin@trustchain.local")}
-                className="p-2 rounded bg-slate-950 border border-slate-800 hover:border-blue-500/50 text-slate-300 text-left hover:text-white transition-all truncate"
+                className="p-2 rounded border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 text-left transition-colors font-medium text-[11px]"
               >
-                👑 Platform Admin
+                Platform Admin
               </button>
               <button
                 type="button"
                 onClick={() => setDemoUser("pharma@cipla.demo")}
-                className="p-2 rounded bg-slate-950 border border-slate-800 hover:border-blue-500/50 text-slate-300 text-left hover:text-white transition-all truncate"
+                className="p-2 rounded border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 text-left transition-colors font-medium text-[11px]"
               >
-                🏭 Manufacturer
+                Manufacturer
               </button>
               <button
                 type="button"
                 onClick={() => setDemoUser("dist@apollologistics.demo")}
-                className="p-2 rounded bg-slate-950 border border-slate-800 hover:border-blue-500/50 text-slate-300 text-left hover:text-white transition-all truncate"
+                className="p-2 rounded border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 text-left transition-colors font-medium text-[11px]"
               >
-                🚚 Logistics / Driver
+                Distributor / Transit
               </button>
               <button
                 type="button"
                 onClick={() => setDemoUser("auditor@fda-regulator.demo")}
-                className="p-2 rounded bg-slate-950 border border-slate-800 hover:border-blue-500/50 text-slate-300 text-left hover:text-white transition-all truncate"
+                className="p-2 rounded border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 text-left transition-colors font-medium text-[11px]"
               >
-                🔍 Compliance Auditor
+                Regulatory Auditor
               </button>
             </div>
           </div>
         </Card>
 
-        <div className="mt-6 text-center">
-          <Link href="/verify" className="text-xs text-blue-400 hover:underline">
-            Consumer looking to verify a package? Click here →
-          </Link>
+        {/* Security & Public Link */}
+        <div className="mt-5 text-center space-y-2">
+          <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-400">
+            <Shield className="w-3.5 h-3.5 text-slate-400" />
+            <span>FIPS 140-2 &amp; SOC-2 Compliant Authentication</span>
+          </div>
+          <div>
+            <Link href="/verify" className="text-xs text-slate-600 hover:text-[#0A192F] hover:underline font-medium">
+              Public package verification portal →
+            </Link>
+          </div>
         </div>
       </div>
     </div>
